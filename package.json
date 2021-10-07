@@ -1,7 +1,7 @@
 {
   "name": "ares-cli-ext",
   "version": "1.0.0",
-  "description": "Missing useful commands from @webosose/ares-cli",
+  "description": "Missing useful tools for @webosose/ares-cli",
   "main": "bin/ares-gdbserver.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
