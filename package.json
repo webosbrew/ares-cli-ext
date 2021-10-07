@@ -1,5 +1,5 @@
 {
-  "name": "ares-cli-ext",
+  "name": "@webosbrew/ares-cli-ext",
   "version": "1.0.0",
   "description": "Missing useful tools for @webosose/ares-cli",
   "main": "bin/ares-gdbserver.js",
