@@ -1,0 +1,29 @@
+{
+  "name": "ares-cli-ext",
+  "version": "1.0.0",
+  "description": "Missing useful commands from @webosose/ares-cli",
+  "main": "bin/ares-gdbserver.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "ares-gdbserver": "bin/ares-gdbserver.js"
+  },
+  "keywords": [
+    "ares-cli",
+    "webOS",
+    "webOS OSE",
+    "webOS CLI",
+    "webOS SDK",
+    "LG"
+  ],
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@webosose/ares-cli": "^2.2.0",
+    "async": "^3.2.1",
+    "nopt": "^5.0.0",
+    "npmlog": "^5.0.1",
+    "request": "^2.88.2"
+  }
+}
