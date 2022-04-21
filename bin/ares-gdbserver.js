@@ -7,7 +7,7 @@ var fs = require('fs'),
     nopt = require('nopt'),
     _gdbserver = require('../lib/gdbserver'),
     cliControl 	= require('@webosose/ares-cli/lib/base/cli-control'),
-    versionTool = require('@webosose/ares-cli/lib/base/version-tools'),
+    version = require('@webosose/ares-cli/lib/base/version-tools'),
     help 		= require('@webosose/ares-cli/lib/base/help-format'),
     novacom 	= require('@webosose/ares-cli/lib/base/novacom'),
     deviceTools	= require('@webosose/ares-cli/lib/base/setup-device');
@@ -70,7 +70,7 @@ log.verbose("argv", argv);
 var op;
 
 if (argv['version']) {
-    versionTool.showVersionAndExit();
+    version.showVersionAndExit();
 } else if (argv['device-list']) {
     deviceTools.showDeviceListAndExit();
 } else if (argv['close']) {
@@ -89,7 +89,7 @@ var options = {
 /**********************************************************************/
 
 if (op) {
-    versionTool.checkNodeVersion(function(err) {
+    version.checkNodeVersion(function(err) {
         op(finish);
     });
 }
