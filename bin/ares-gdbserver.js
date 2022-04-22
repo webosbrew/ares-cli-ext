@@ -2,15 +2,20 @@
 
 var fs = require('fs'),
     path = require("path"),
-    async 	= require('async'),
+    async = require('async'),
     log = require('npmlog'),
     nopt = require('nopt'),
     _gdbserver = require('../lib/gdbserver'),
-    cliControl 	= require('@webosose/ares-cli/lib/base/cli-control'),
+    cliControl = require('@webosose/ares-cli/lib/base/cli-control'),
     version = require('@webosose/ares-cli/lib/base/version-tools'),
-    help 		= require('@webosose/ares-cli/lib/base/help-format'),
-    novacom 	= require('@webosose/ares-cli/lib/base/novacom'),
-    deviceTools	= require('@webosose/ares-cli/lib/base/setup-device');
+    help = require('@webosose/ares-cli/lib/base/help-format'),
+    novacom = require('@webosose/ares-cli/lib/base/novacom'),
+    deviceTools = require('@webosose/ares-cli/lib/base/setup-device'),
+    commonTools = require("@webosose/ares-cli/lib/base/common-tools"),
+    version = commonTools.version,
+    cliControl = commonTools.cliControl,
+    help = commonTools.help,
+    appdata = commonTools.appdata;
 
 /**********************************************************************/
 
@@ -28,15 +33,15 @@ if (process.argv.length === 2) {
 /**********************************************************************/
 
 var knownOpts = {
-    "device":	[String, null],
-    "port":	[String, null],
-    "close":	Boolean,
-    "app":	[String, null],
-    "service":	[String, null],
-    "device-list":	Boolean,
-    "version":	Boolean,
-    "help":		Boolean,
-    "level":	['silly', 'verbose', 'info', 'http', 'warn', 'error']
+    "device": [String, null],
+    "port": [String, null],
+    "close": Boolean,
+    "app": [String, null],
+    "service": [String, null],
+    "device-list": Boolean,
+    "version": Boolean,
+    "help": Boolean,
+    "level": ['silly', 'verbose', 'info', 'http', 'warn', 'error']
 };
 var shortHands = {
     "d": ["--device"],
@@ -89,69 +94,28 @@ var options = {
 /**********************************************************************/
 
 if (op) {
-    version.checkNodeVersion(function(err) {
+    version.checkNodeVersion(function (err) {
         op(finish);
     });
 }
 
 function showUsage() {
-    var helpString = [
-        "",
-        "NAME",
-        help.format(processName + " - Command line interface for gdbserver"),
-        "",
-        "SYNOPSIS",
-        help.format(processName + " [OPTION...] [-a, --app] <APP_ID>"),
-        help.format(processName + " [OPTION...] -s, --service <SERVICE_ID>"),
-        "",
-        "OPTION",
-        help.format("-d, --device <DEVICE>", "Specify DEVICE to use"),
-        help.format("-D, --device-list", "List the available DEVICEs"),
-        help.format("-c, --close", "close running gdbserver"),
-        help.format("-p, --port", "gdbserver port to be used on device [default:9930]"),
-        help.format("--level <LEVEL>", "tracing LEVEL is one of 'silly', 'verbose', 'info', 'http', 'warn', 'error' [warn]"),
-        help.format("-h, --help", "Display this help"),
-        help.format("-V, --version", "Display version info"),
-        "",
-        "DESCRIPTION",
-        help.format("Launch native app with gdbserver"),
-        help.format("(Notice) A native app should have been installed first."),
-        "",
-        help.format("APP_ID is an application id described in appinfo.json"),
-        "",
-        "Examples:",
-        " Launch a native app with gdbserver (port: 9932) in the device",
-        processName + " com.native.app -p 9932 -d emulator",
-        "",
-        " Launch a native service with gdbserver (port: 9932) in the device",
-        processName + " -s com.native.app.service -p 9932 -d emulator",
-        "",
-        " This command displays the address gdbserver runs like the following",
-        " >> gdb can connect to [target remote 10.123.123.123:9930] ",
-        "",
-        " This means gdb can connect to the gdbserver remotely",
-        " > (gdb) file NATIVE_BIN",
-        " > (gdb) set sysroot remote:/",
-        " > (gdb) target remote 10.123.123.123:9930",
-        " > (gdb) c",
-        ""
-    ];
-
-    help.print(helpString);
+    help.display('../../../../../../@webosbrew/ares-cli-ext/files/help/' + processName,
+        appdata.getConfig(true).profile);
 }
 
-function gdbserver(){
+function gdbserver() {
     log.info("gdbserver():", "AppId:", options.appId);
-    if(!options.appId && !options.serviceId){
+    if (!options.appId && !options.serviceId) {
         showUsage();
         cliControl.end(-1);
     }
     _gdbserver.run(options, null, finish);
 }
 
-function close(){
+function close() {
     log.info("gdbserver():", "close");
-    if(!options.device){
+    if (!options.device) {
         showUsage();
         cliControl.end(-1);
     }
@@ -160,7 +124,7 @@ function close(){
 
 function finish(err, value) {
     if (err) {
-        log.error(processName + ": "+ err.toString());
+        log.error(processName + ": " + err.toString());
         log.verbose(err.stack);
         cliControl.end(-1);
     } else {

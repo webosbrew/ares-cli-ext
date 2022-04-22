@@ -26,7 +26,7 @@ var knownOpts = {
     version: Boolean,
     help: Boolean,
     "hidden-help": Boolean,
-    "level":	['silly', 'verbose', 'info', 'http', 'warn', 'error']
+    "level": ['silly', 'verbose', 'info', 'http', 'warn', 'error']
 };
 
 var shortHands = {
@@ -75,14 +75,15 @@ if (argv['version']) {
 /**********************************************************************/
 
 if (op) {
-    version.checkNodeVersion(function(err) {
+    version.checkNodeVersion(function (err) {
         op(finish);
     });
 }
 
 
 function showUsage() {
-
+    help.display('../../../../../../@webosbrew/ares-cli-ext/files/help/' + processName,
+        appdata.getConfig(true).profile);
 }
 
 function extend() {
